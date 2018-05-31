@@ -20,8 +20,9 @@ pubnub.addListener({
 	async message(data) {
 		log('received_message', JSON.stringify(data))
 		const { message: { device, action } } = data
+		const url = `${PIMOTE_API_URL}/devices/${device}/actions/${action}/executions`
 		try {
-			const response = await fetch(`${PIMOTE_API_URL}/devices/${device}/actions/${action}/executions`).then(r => r.json())
+			const response = await fetch(url, { method: 'POST' }).then(r => r.json())
 			log('execution', JSON.stringify(response))
 		} catch (e) {
 			log('error', e)
